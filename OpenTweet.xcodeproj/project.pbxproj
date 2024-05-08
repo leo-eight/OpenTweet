@@ -21,6 +21,7 @@
 		DA00BB482BEB61E900DD4B98 /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00BB472BEB61E900DD4B98 /* TweetTableViewCell.swift */; };
 		DA00BB4C2BEB6AF100DD4B98 /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00BB4B2BEB6AF100DD4B98 /* DateUtility.swift */; };
 		DA00BB4E2BEC262400DD4B98 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00BB4D2BEC262400DD4B98 /* ImageCacheManager.swift */; };
+		DA00BB502BEC360B00DD4B98 /* InitialsAvatarImageUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00BB4F2BEC360B00DD4B98 /* InitialsAvatarImageUtility.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		DA00BB472BEB61E900DD4B98 /* TweetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
 		DA00BB4B2BEB6AF100DD4B98 /* DateUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
 		DA00BB4D2BEC262400DD4B98 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
+		DA00BB4F2BEC360B00DD4B98 /* InitialsAvatarImageUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialsAvatarImageUtility.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +194,7 @@
 			children = (
 				DA00BB4B2BEB6AF100DD4B98 /* DateUtility.swift */,
 				DA00BB4D2BEC262400DD4B98 /* ImageCacheManager.swift */,
+				DA00BB4F2BEC360B00DD4B98 /* InitialsAvatarImageUtility.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 				DA00BB452BEB5E5500DD4B98 /* TweetsViewModel.swift in Sources */,
 				DA00BB4C2BEB6AF100DD4B98 /* DateUtility.swift in Sources */,
 				DA00BB4E2BEC262400DD4B98 /* ImageCacheManager.swift in Sources */,
+				DA00BB502BEC360B00DD4B98 /* InitialsAvatarImageUtility.swift in Sources */,
 				009C4C6E1D9F0CD600F0BC6C /* TimelineViewController.swift in Sources */,
 				009C4C6C1D9F0CD600F0BC6C /* AppDelegate.swift in Sources */,
 				DA00BB482BEB61E900DD4B98 /* TweetTableViewCell.swift in Sources */,
