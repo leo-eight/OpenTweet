@@ -12,10 +12,12 @@ class TimelineViewController: UIViewController {
     
 
     var tableView: UITableView!
+    var viewModel = TweetsViewModel()
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
         setupTableView()
+        viewModel.loadTweets()
 	}
 
     private func setupTableView() {
@@ -37,7 +39,7 @@ class TimelineViewController: UIViewController {
 
 extension TimelineViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return viewModel.tweets.count
     }
 }
 
