@@ -86,6 +86,7 @@ class TweetTableViewCell: UITableViewCell {
                 if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
                     DispatchQueue.main.async {
                         self.avatarImageView.image = image
+                        self.setNeedsLayout()
                     }
                 }
             }

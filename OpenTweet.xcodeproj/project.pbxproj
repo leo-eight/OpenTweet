@@ -20,6 +20,7 @@
 		DA00BB452BEB5E5500DD4B98 /* TweetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00BB442BEB5E5500DD4B98 /* TweetsViewModel.swift */; };
 		DA00BB482BEB61E900DD4B98 /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00BB472BEB61E900DD4B98 /* TweetTableViewCell.swift */; };
 		DA00BB4C2BEB6AF100DD4B98 /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00BB4B2BEB6AF100DD4B98 /* DateUtility.swift */; };
+		DA00BB4E2BEC262400DD4B98 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00BB4D2BEC262400DD4B98 /* ImageCacheManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		DA00BB442BEB5E5500DD4B98 /* TweetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetsViewModel.swift; sourceTree = "<group>"; };
 		DA00BB472BEB61E900DD4B98 /* TweetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
 		DA00BB4B2BEB6AF100DD4B98 /* DateUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
+		DA00BB4D2BEC262400DD4B98 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				DA00BB4B2BEB6AF100DD4B98 /* DateUtility.swift */,
+				DA00BB4D2BEC262400DD4B98 /* ImageCacheManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 				DA00BB3E2BEB565F00DD4B98 /* Tweet.swift in Sources */,
 				DA00BB452BEB5E5500DD4B98 /* TweetsViewModel.swift in Sources */,
 				DA00BB4C2BEB6AF100DD4B98 /* DateUtility.swift in Sources */,
+				DA00BB4E2BEC262400DD4B98 /* ImageCacheManager.swift in Sources */,
 				009C4C6E1D9F0CD600F0BC6C /* TimelineViewController.swift in Sources */,
 				009C4C6C1D9F0CD600F0BC6C /* AppDelegate.swift in Sources */,
 				DA00BB482BEB61E900DD4B98 /* TweetTableViewCell.swift in Sources */,
