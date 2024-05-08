@@ -11,7 +11,6 @@ import Combine
 
 class TimelineViewController: UIViewController {
     
-
     var tableView: UITableView!
     var viewModel = TweetsViewModel()
     var cancellables = Set<AnyCancellable>()
@@ -61,21 +60,9 @@ extension TimelineViewController: UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TweetTableViewCell", for: indexPath) as? TweetTableViewCell else {
             return UITableViewCell()
         }
-        let tweet = viewModel.tweets[indexPath.row]
         
-        cell.usernameLabel.text = tweet.author
-        cell.tweetContentLabel.text = tweet.content
-        cell.timestampLabel.text = tweet.date
-
-        if let urlString = tweet.avatar, let url = URL(string: urlString) {
-            DispatchQueue.global(qos: .background).async {
-                if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        cell.avatarImageView.image = image
-                    }
-                }
-            }
-        }
+        let tweet = viewModel.tweets[indexPath.row]
+        cell.configure(with: tweet)
         return cell
     }
 }

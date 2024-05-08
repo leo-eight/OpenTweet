@@ -43,6 +43,7 @@ class TweetTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         setupViews()
     }
 
@@ -73,5 +74,21 @@ class TweetTableViewCell: UITableViewCell {
             tweetContentLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             tweetContentLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
+    }
+    
+    func configure(with tweet: Tweet) {
+        usernameLabel.text = tweet.author
+        tweetContentLabel.text = tweet.content
+        timestampLabel.text = tweet.date
+
+        if let urlString = tweet.avatar, let url = URL(string: urlString) {
+            DispatchQueue.global(qos: .background).async {
+                if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self.avatarImageView.image = image
+                    }
+                }
+            }
+        }
     }
 }
