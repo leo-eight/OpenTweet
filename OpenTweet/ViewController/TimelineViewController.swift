@@ -18,6 +18,7 @@ class TimelineViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+        
         setupTableView()
         bindViewModel()
         viewModel.loadTweets()
@@ -37,6 +38,9 @@ class TimelineViewController: UIViewController {
 
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.register(TweetTableViewCell.self, forCellReuseIdentifier: "TweetTableViewCell")
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
     }
     
     private func bindViewModel() {
@@ -54,6 +58,15 @@ extension TimelineViewController: UITableViewDataSource {
 
 extension TimelineViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TweetTableViewCell", for: indexPath) as? TweetTableViewCell else {
+            return UITableViewCell()
+        }
+        let tweet = viewModel.tweets[indexPath.row]
+        
+        cell.usernameLabel.text = tweet.author
+        cell.tweetContentLabel.text = tweet.content
+        cell.timestampLabel.text = tweet.date
+        
+        return cell
     }
 }
