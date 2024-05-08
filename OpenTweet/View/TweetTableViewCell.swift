@@ -9,6 +9,15 @@
 import UIKit
 
 class TweetTableViewCell: UITableViewCell {
+    let avatarImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 20
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 16)
@@ -42,22 +51,24 @@ class TweetTableViewCell: UITableViewCell {
     }
 
     private func setupViews() {
+        addSubview(avatarImageView)
         addSubview(usernameLabel)
         addSubview(tweetContentLabel)
         addSubview(timestampLabel)
 
         NSLayoutConstraint.activate([
+            avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 40),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 40),
+
             usernameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            usernameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            usernameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-            usernameLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
-            
+            usernameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 10),
+
             timestampLabel.leadingAnchor.constraint(equalTo: usernameLabel.leadingAnchor),
             timestampLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 5),
-            timestampLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-            timestampLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
 
-            tweetContentLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            tweetContentLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 10),
             tweetContentLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             tweetContentLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             tweetContentLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)

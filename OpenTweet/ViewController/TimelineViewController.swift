@@ -66,7 +66,16 @@ extension TimelineViewController: UITableViewDelegate {
         cell.usernameLabel.text = tweet.author
         cell.tweetContentLabel.text = tweet.content
         cell.timestampLabel.text = tweet.date
-        
+
+        if let urlString = tweet.avatar, let url = URL(string: urlString) {
+            DispatchQueue.global(qos: .background).async {
+                if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        cell.avatarImageView.image = image
+                    }
+                }
+            }
+        }
         return cell
     }
 }
