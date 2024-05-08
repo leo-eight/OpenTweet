@@ -7,16 +7,19 @@
 //
 
 import UIKit
+import Combine
 
 class TimelineViewController: UIViewController {
     
 
     var tableView: UITableView!
     var viewModel = TweetsViewModel()
+    var cancellables = Set<AnyCancellable>()
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
         setupTableView()
+        bindViewModel()
         viewModel.loadTweets()
 	}
 
@@ -34,6 +37,12 @@ class TimelineViewController: UIViewController {
 
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    private func bindViewModel() {
+        viewModel.$tweets.receive(on: RunLoop.main).sink { [weak self] _ in
+            self?.tableView.reloadData()
+        }.store(in: &cancellables)
     }
 }
 
