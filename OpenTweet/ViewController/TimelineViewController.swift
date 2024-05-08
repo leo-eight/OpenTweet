@@ -47,6 +47,27 @@ class TimelineViewController: UIViewController {
             self?.tableView.reloadData()
         }.store(in: &cancellables)
     }
+    
+    private func navigateToTweetThread(for tweet: Tweet) {
+        let tweetThreadVC = TweetThreadViewController()
+        
+        if let replyToId = tweet.inReplyTo {
+            // It's a reply to another tweet, find the original tweet
+            if let originalTweet = viewModel.tweets.first(where: { $0.id == replyToId }) {
+                tweetThreadVC.tweets = [originalTweet, tweet]  // Show original and reply
+            }
+        } else {
+            // It's an original tweet, find all replies
+            let replies = viewModel.tweets.filter { $0.inReplyTo == tweet.id }
+            tweetThreadVC.tweets = [tweet] + replies.sorted { $0.date < $1.date }
+        }
+
+        if let nav = navigationController {
+            nav.pushViewController(tweetThreadVC, animated: true)
+        } else {
+            print("NavigationController is nil")
+        }
+    }
 }
 
 extension TimelineViewController: UITableViewDataSource {
@@ -64,5 +85,11 @@ extension TimelineViewController: UITableViewDelegate {
         let tweet = viewModel.tweets[indexPath.row]
         cell.configure(with: tweet)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let tweet = viewModel.tweets[indexPath.row]
+        navigateToTweetThread(for: tweet)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
