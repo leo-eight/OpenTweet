@@ -19,6 +19,7 @@
 		DA00BB412BEB58C500DD4B98 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00BB402BEB58C500DD4B98 /* Timeline.swift */; };
 		DA00BB452BEB5E5500DD4B98 /* TweetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00BB442BEB5E5500DD4B98 /* TweetsViewModel.swift */; };
 		DA00BB482BEB61E900DD4B98 /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00BB472BEB61E900DD4B98 /* TweetTableViewCell.swift */; };
+		DA00BB4C2BEB6AF100DD4B98 /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00BB4B2BEB6AF100DD4B98 /* DateUtility.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		DA00BB402BEB58C500DD4B98 /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		DA00BB442BEB5E5500DD4B98 /* TweetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetsViewModel.swift; sourceTree = "<group>"; };
 		DA00BB472BEB61E900DD4B98 /* TweetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
+		DA00BB4B2BEB6AF100DD4B98 /* DateUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 				DA00BB462BEB61CF00DD4B98 /* View */,
 				DA00BB432BEB5E3800DD4B98 /* ViewModel */,
 				DA00BB422BEB5DF200DD4B98 /* ViewController */,
+				DA00BB492BEB6ACB00DD4B98 /* Utils */,
 				009C4C6B1D9F0CD600F0BC6C /* AppDelegate.swift */,
 				009C4C6F1D9F0CD600F0BC6C /* Main.storyboard */,
 				009C4C741D9F0CD600F0BC6C /* LaunchScreen.storyboard */,
@@ -180,6 +183,14 @@
 				DA00BB472BEB61E900DD4B98 /* TweetTableViewCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		DA00BB492BEB6ACB00DD4B98 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				DA00BB4B2BEB6AF100DD4B98 /* DateUtility.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -323,6 +334,7 @@
 				DA00BB412BEB58C500DD4B98 /* Timeline.swift in Sources */,
 				DA00BB3E2BEB565F00DD4B98 /* Tweet.swift in Sources */,
 				DA00BB452BEB5E5500DD4B98 /* TweetsViewModel.swift in Sources */,
+				DA00BB4C2BEB6AF100DD4B98 /* DateUtility.swift in Sources */,
 				009C4C6E1D9F0CD600F0BC6C /* TimelineViewController.swift in Sources */,
 				009C4C6C1D9F0CD600F0BC6C /* AppDelegate.swift in Sources */,
 				DA00BB482BEB61E900DD4B98 /* TweetTableViewCell.swift in Sources */,

@@ -79,8 +79,8 @@ class TweetTableViewCell: UITableViewCell {
     func configure(with tweet: Tweet) {
         usernameLabel.text = tweet.author
         tweetContentLabel.text = tweet.content
-        timestampLabel.text = tweet.date
-
+        timestampLabel.text = DateUtility.formatDate(from: tweet.date)
+        
         if let urlString = tweet.avatar, let url = URL(string: urlString) {
             DispatchQueue.global(qos: .background).async {
                 if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
