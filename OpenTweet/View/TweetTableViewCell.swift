@@ -30,13 +30,17 @@ class TweetTableViewCell: UITableViewCell {
         return label
     }()
     
-    /// Label that displays the content of the tweet.
-    let tweetContentLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15)
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    /// Textview that displays the content of the tweet.
+    let tweetContentView: UITextView = {
+        let textView = UITextView()
+        textView.isEditable = false
+        textView.isSelectable = true  // Enables interaction with links if needed
+        textView.dataDetectorTypes = [.link]  // Automatically detect links
+        textView.isScrollEnabled = false
+        textView.font = UIFont.systemFont(ofSize: 15)  // Default font for all text
+        textView.textContainerInset = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: -5)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
     }()
     
     /// Label that displays the timestamp of when the tweet was posted.
@@ -72,7 +76,7 @@ class TweetTableViewCell: UITableViewCell {
     private func setupViews() {
         addSubview(avatarImageView)
         addSubview(usernameLabel)
-        addSubview(tweetContentLabel)
+        addSubview(tweetContentView)
         addSubview(timestampLabel)
         
         NSLayoutConstraint.activate([
@@ -87,10 +91,10 @@ class TweetTableViewCell: UITableViewCell {
             timestampLabel.leadingAnchor.constraint(equalTo: usernameLabel.leadingAnchor),
             timestampLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 5),
             
-            tweetContentLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 10),
-            tweetContentLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            tweetContentLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-            tweetContentLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+            tweetContentView.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 10),
+            tweetContentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            tweetContentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            tweetContentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
     }
     
@@ -101,8 +105,36 @@ class TweetTableViewCell: UITableViewCell {
     /// - Parameter tweet: The `Tweet` object containing the data to display.
     func configure(with tweet: Tweet) {
         usernameLabel.text = tweet.author
-        tweetContentLabel.text = tweet.content
         timestampLabel.text = DateUtility.formatDate(from: tweet.date)
+
+        // Base font and style for the entire text
+        let contentFont = UIFont.systemFont(ofSize: 15)
+        let attributedString = NSMutableAttributedString(string: tweet.content, attributes: [
+            .font: contentFont
+        ])
+
+        // Define attributes for mentions and links
+        let specialAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor.systemBlue,
+            NSAttributedString.Key.font: contentFont  // Ensures the font size is consistent
+        ]
+
+        // Regex for mentions
+        let mentionRegex = try! NSRegularExpression(pattern: "@[\\w]+", options: [])
+        let mentions = mentionRegex.matches(in: tweet.content, options: [], range: NSRange(tweet.content.startIndex..., in: tweet.content))
+        for match in mentions {
+            attributedString.addAttributes(specialAttributes, range: match.range)
+        }
+
+        // NSDataDetector for URLs if not using UITextView's automatic detection
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        let urls = detector.matches(in: tweet.content, options: [], range: NSRange(tweet.content.startIndex..., in: tweet.content))
+        for match in urls {
+            attributedString.addAttributes(specialAttributes, range: match.range)
+        }
+
+        tweetContentView.attributedText = attributedString
+        
         // Handle image loading
         if let urlString = tweet.avatar, let url = URL(string: urlString) {
             currentAvatarURL = url // Store the current URL for comparison
