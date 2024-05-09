@@ -23,6 +23,7 @@
 		DA00BB4E2BEC262400DD4B98 /* ImageCacheUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00BB4D2BEC262400DD4B98 /* ImageCacheUtility.swift */; };
 		DA00BB502BEC360B00DD4B98 /* InitialsAvatarImageUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00BB4F2BEC360B00DD4B98 /* InitialsAvatarImageUtility.swift */; };
 		DA00BB522BEC3D8C00DD4B98 /* TweetThreadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00BB512BEC3D8C00DD4B98 /* TweetThreadViewController.swift */; };
+		DA00BB562BECB5C900DD4B98 /* InitialsImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00BB552BECB5C900DD4B98 /* InitialsImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		DA00BB4D2BEC262400DD4B98 /* ImageCacheUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheUtility.swift; sourceTree = "<group>"; };
 		DA00BB4F2BEC360B00DD4B98 /* InitialsAvatarImageUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialsAvatarImageUtility.swift; sourceTree = "<group>"; };
 		DA00BB512BEC3D8C00DD4B98 /* TweetThreadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetThreadViewController.swift; sourceTree = "<group>"; };
+		DA00BB552BECB5C900DD4B98 /* InitialsImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialsImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				DA00BB472BEB61E900DD4B98 /* TweetTableViewCell.swift */,
+				DA00BB552BECB5C900DD4B98 /* InitialsImageView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				DA00BB502BEC360B00DD4B98 /* InitialsAvatarImageUtility.swift in Sources */,
 				009C4C6E1D9F0CD600F0BC6C /* TimelineViewController.swift in Sources */,
 				009C4C6C1D9F0CD600F0BC6C /* AppDelegate.swift in Sources */,
+				DA00BB562BECB5C900DD4B98 /* InitialsImageView.swift in Sources */,
 				DA00BB482BEB61E900DD4B98 /* TweetTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
