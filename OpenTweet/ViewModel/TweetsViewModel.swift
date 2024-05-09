@@ -11,16 +11,29 @@ import Foundation
 class TweetsViewModel {
     @Published var tweets: [Tweet] = []
 
-    func loadTweets() {
-        guard let url = Bundle.main.url(forResource: "timeline", withExtension: "json"),
-              let data = try? Data(contentsOf: url) else {
-            fatalError("Failed to load JSON")
+    func loadTweets(completion: @escaping (Error?) -> Void) {
+        guard let url = Bundle.main.url(forResource: "timeline", withExtension: "json") else {
+            completion(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "JSON file not found"]))
+            return
         }
 
+        do {
+            let data = try Data(contentsOf: url)
+            parseTweets(from: data)
+            completion(nil)
+        } catch {
+            completion(error)
+        }
+    }
+
+    private func parseTweets(from data: Data) {
         let decoder = JSONDecoder()
-        if let timeline = try? decoder.decode(Timeline.self, from: data) {
+        do {
+            let timeline = try decoder.decode(Timeline.self, from: data)
             self.tweets = timeline.timeline
-        } else {
+        } catch {
+            print("Error: Unable to decode JSON - \(error.localizedDescription)")
+            // Clear data if necessary
             self.tweets = []
         }
     }

@@ -34,10 +34,11 @@ class TweetTableViewCell: UITableViewCell {
     let tweetContentView: UITextView = {
         let textView = UITextView()
         textView.isEditable = false
-        textView.isSelectable = true  // Enables interaction with links if needed
-        textView.dataDetectorTypes = [.link]  // Automatically detect links
+        textView.isSelectable = true
+        // Automatically detect links
+        textView.dataDetectorTypes = [.link]
         textView.isScrollEnabled = false
-        textView.font = UIFont.systemFont(ofSize: 15)  // Default font for all text
+        textView.font = UIFont.systemFont(ofSize: 15)
         textView.textContainerInset = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: -5)
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
@@ -98,10 +99,17 @@ class TweetTableViewCell: UITableViewCell {
         ])
     }
     
+    private func handleImageLoadError(for author: String) {
+        // Set a default placeholder image or generate initials
+        self.avatarImageView.image = UIImage(named: "default_avatar") ?? InitialsImageUtility.generateInitialsImage(for: author, size: CGSize(width: 40, height: 40))
+
+        // Optionally, log the error or inform the user with a toast, alert, etc.
+        // This can be an alert or a simple label display saying "Image load failed"
+    }
+    
     // MARK: - Configuration
     
     /// Configures the cell with data from a tweet.
-    ///
     /// - Parameter tweet: The `Tweet` object containing the data to display.
     func configure(with tweet: Tweet) {
         usernameLabel.text = tweet.author
@@ -113,24 +121,37 @@ class TweetTableViewCell: UITableViewCell {
             .font: contentFont
         ])
 
-        // Define attributes for mentions and links
-        let specialAttributes = [
-            NSAttributedString.Key.foregroundColor: UIColor.systemBlue,
-            NSAttributedString.Key.font: contentFont  // Ensures the font size is consistent
-        ]
-
         // Regex for mentions
-        let mentionRegex = try! NSRegularExpression(pattern: "@[\\w]+", options: [])
-        let mentions = mentionRegex.matches(in: tweet.content, options: [], range: NSRange(tweet.content.startIndex..., in: tweet.content))
-        for match in mentions {
-            attributedString.addAttributes(specialAttributes, range: match.range)
+        do {
+            let mentionRegex = try NSRegularExpression(pattern: "@[\\w]+", options: [])
+            let mentions = mentionRegex.matches(in: tweet.content, options: [], range: NSRange(tweet.content.startIndex..., in: tweet.content))
+            // Define attributes for mentions and links
+            let specialAttributes = [
+                NSAttributedString.Key.foregroundColor: UIColor.systemBlue,
+                NSAttributedString.Key.font: contentFont
+            ]
+            
+            for match in mentions {
+                attributedString.addAttributes(specialAttributes, range: match.range)
+            }
+        } catch {
+            print("Error creating regular expression: \(error.localizedDescription)")
         }
 
         // NSDataDetector for URLs if not using UITextView's automatic detection
-        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
-        let urls = detector.matches(in: tweet.content, options: [], range: NSRange(tweet.content.startIndex..., in: tweet.content))
-        for match in urls {
-            attributedString.addAttributes(specialAttributes, range: match.range)
+        do {
+            let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+            let urls = detector.matches(in: tweet.content, options: [], range: NSRange(tweet.content.startIndex..., in: tweet.content))
+            let linkAttributes = [
+                NSAttributedString.Key.foregroundColor: UIColor.systemBlue,
+                NSAttributedString.Key.font: contentFont
+            ]
+            
+            for match in urls {
+                attributedString.addAttributes(linkAttributes, range: match.range)
+            }
+        } catch {
+            print("Error initializing data detector: \(error.localizedDescription)")
         }
 
         tweetContentView.attributedText = attributedString
@@ -138,11 +159,21 @@ class TweetTableViewCell: UITableViewCell {
         // Handle image loading
         if let urlString = tweet.avatar, let url = URL(string: urlString) {
             currentAvatarURL = url // Store the current URL for comparison
-            ImageCacheManager.getImage(for: url) { [weak self, currentLoadedURL = url] image in
+            ImageCacheUtility.getImage(for: url) { [weak self, currentLoadedURL = url] image, error in
                 DispatchQueue.main.async {
+                    guard let self = self else { return }
                     // Check if the loaded URL matches the current URL to avoid displaying wrong images
-                    if self?.currentAvatarURL == currentLoadedURL {
-                        self?.avatarImageView.image = image ?? InitialsImageUtility.generateInitialsImage(for: tweet.author, size: CGSize(width: 40, height: 40))
+                    if self.currentAvatarURL == currentLoadedURL {
+                        if let image = image {
+                            self.avatarImageView.image = image
+                        } else if let error = error {
+                            print("Failed to load image: \(error.localizedDescription)")
+                            // Optionally, you can handle different types of errors differently
+                            self.handleImageLoadError(for: tweet.author)
+                        } else {
+                            // No image and no error (unlikely case)
+                            self.avatarImageView.image = InitialsImageUtility.generateInitialsImage(for: tweet.author, size: CGSize(width: 40, height: 40))
+                        }
                     }
                 }
             }

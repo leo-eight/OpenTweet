@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetThreadViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class TweetThreadViewController: UIViewController {
     var tableView: UITableView!
     var tweets: [Tweet] = []  // This will hold the main tweet and its replies
     var animator: UIDynamicAnimator?
@@ -34,18 +34,22 @@ class TweetThreadViewController: UIViewController, UITableViewDataSource, UITabl
         view.backgroundColor = .white
         title = "Tweet Thread"
     }
+}
 
+extension TweetThreadViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tweets.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetTableViewCell", for: indexPath) as! TweetTableViewCell
         cell.configure(with: tweets[indexPath.row])
         cell.selectionStyle = .none
         return cell
     }
-    
+}
+
+extension TweetThreadViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? TweetTableViewCell else { return }
 
@@ -72,5 +76,4 @@ class TweetThreadViewController: UIViewController, UITableViewDataSource, UITabl
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
-
 }

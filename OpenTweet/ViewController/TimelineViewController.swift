@@ -20,7 +20,9 @@ class TimelineViewController: UIViewController {
         
         setupTableView()
         bindViewModel()
-        viewModel.loadTweets()
+        viewModel.loadTweets { [weak self] error in
+            self?.updateUI(onError: error)
+        }
         configureNavigationBar()
 	}
 
@@ -77,15 +79,31 @@ class TimelineViewController: UIViewController {
         // Remove the UIVisualEffectBackdropView from navigation bar
         view.backgroundColor = .systemBackground
     }
+    
+    private func showErrorAlert(withMessage message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true)
+    }
+    
+    private func updateUI(onError error: Error?) {
+        DispatchQueue.main.async {
+            if let error = error {
+                // Handle the error state, e.g., show an alert or error message
+                self.showErrorAlert(withMessage: error.localizedDescription)
+            } else {
+                // Refresh the table view to reflect any new data or changes
+                self.tableView.reloadData()
+            }
+        }
+    }
 }
 
 extension TimelineViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.tweets.count
     }
-}
-
-extension TimelineViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetTableViewCell", for: indexPath) as! TweetTableViewCell
         let tweet = viewModel.tweets[indexPath.row]
@@ -93,7 +111,9 @@ extension TimelineViewController: UITableViewDelegate {
         cell.selectionStyle = .none
         return cell
     }
-    
+}
+
+extension TimelineViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? TweetTableViewCell else { return }
 
