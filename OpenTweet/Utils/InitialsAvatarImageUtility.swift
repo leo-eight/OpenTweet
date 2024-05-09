@@ -9,6 +9,7 @@
 import UIKit
 
 class InitialsImageUtility {
+    
     static func generateInitialsImage(for name: String, size: CGSize, backgroundColor: UIColor = .lightGray, textColor: UIColor = .white) -> UIImage? {
         let frame = CGRect(origin: .zero, size: size)
         return image(from: getInitials(from: name), frame: frame, backgroundColor: backgroundColor, textColor: textColor)

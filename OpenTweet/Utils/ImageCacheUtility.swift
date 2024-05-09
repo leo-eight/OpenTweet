@@ -9,19 +9,19 @@
 import UIKit
 
 class ImageCacheUtility {
-
+    
     private static let cache = NSCache<NSString, UIImage>()
-
+    
     static func getImage(for url: URL, completion: @escaping (UIImage?, Error?) -> Void) {
         let key = NSString(string: url.absoluteString)
-
+        
         if let cachedImage = cache.object(forKey: key) {
             DispatchQueue.main.async {
                 completion(cachedImage, nil)
             }
             return
         }
-
+        
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 let data = try Data(contentsOf: url)

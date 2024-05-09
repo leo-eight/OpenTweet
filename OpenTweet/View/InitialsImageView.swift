@@ -51,8 +51,8 @@ class InitialsImageView: UIImageView {
         }
     }
     
-    // Get initials from a name, skipping '@' if present as the first character
     private func getInitials(from name: String) -> String {
+        // Get initials from a name, skipping '@' if present as the first character
         let adjustedName = name.starts(with: "@") ? String(name.dropFirst()) : name
         return adjustedName.components(separatedBy: " ")
             .reduce("") { (result, word) in
