@@ -79,7 +79,37 @@ class TweetTableViewCell: UITableViewCell {
             tweetContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
+    
+    private func configureTweetContentView(for tweet: Tweet) {
+        // Base font and style for the entire text
+         let contentFont = UIFont.systemFont(ofSize: 15)
+         let attributedString = NSMutableAttributedString(string: tweet.content, attributes: [
+             .font: contentFont
+         ])
 
+         // Define attributes for mentions and links
+         let specialAttributes = [
+             NSAttributedString.Key.foregroundColor: UIColor.systemBlue,
+             NSAttributedString.Key.font: contentFont  // Ensures the font size is consistent
+         ]
+
+         // Regex for mentions
+         let mentionRegex = try! NSRegularExpression(pattern: "@[\\w]+", options: [])
+         let mentions = mentionRegex.matches(in: tweet.content, options: [], range: NSRange(tweet.content.startIndex..., in: tweet.content))
+         for match in mentions {
+             attributedString.addAttributes(specialAttributes, range: match.range)
+         }
+
+         // NSDataDetector for URLs if not using UITextView's automatic detection
+         let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+         let urls = detector.matches(in: tweet.content, options: [], range: NSRange(tweet.content.startIndex..., in: tweet.content))
+         for match in urls {
+             attributedString.addAttributes(specialAttributes, range: match.range)
+         }
+
+         tweetContentView.attributedText = attributedString
+    }
+    
     /// Handle the formatting and setting of the tweet's date asynchronously
     private func configureDate(for tweet: Tweet) {
         DispatchQueue.global(qos: .userInitiated).async {
@@ -126,6 +156,7 @@ class TweetTableViewCell: UITableViewCell {
     func configure(with tweet: Tweet) {
         usernameLabel.text = tweet.author
         tweetContentView.text = tweet.content
+        configureTweetContentView(for: tweet)
         configureDate(for: tweet)
         configureAvatar(for: tweet)
     }
