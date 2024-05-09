@@ -90,10 +90,23 @@ extension TimelineViewController: UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetTableViewCell", for: indexPath) as! TweetTableViewCell
         let tweet = viewModel.tweets[indexPath.row]
         cell.configure(with: tweet)
+        cell.selectionStyle = .none
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? TweetTableViewCell else { return }
+
+        UIView.animate(withDuration: 0.2, animations: {
+            // Scale up the cell
+            cell.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+        }) { (finished) in
+            UIView.animate(withDuration: 0.2, animations: {
+                // Scale down back to normal size
+                cell.transform = CGAffineTransform.identity
+            })
+        }
+        
         let tweet = viewModel.tweets[indexPath.row]
         navigateToTweetThread(for: tweet)
         tableView.deselectRow(at: indexPath, animated: true)
