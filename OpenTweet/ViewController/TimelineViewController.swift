@@ -104,6 +104,7 @@ extension TimelineViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetTableViewCell", for: indexPath) as! TweetTableViewCell
         cell.configure(with: viewModel.tweets[indexPath.row])
+        cell.selectionStyle = .none
         return cell
     }
 }
