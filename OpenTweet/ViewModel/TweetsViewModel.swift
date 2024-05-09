@@ -26,7 +26,7 @@ class TweetsViewModel {
         }
     }
 
-    private func parseTweets(from data: Data) {
+    internal func parseTweets(from data: Data) {
         let decoder = JSONDecoder()
         do {
             let timeline = try decoder.decode(Timeline.self, from: data)
