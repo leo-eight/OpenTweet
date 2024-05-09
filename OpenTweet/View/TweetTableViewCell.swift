@@ -10,7 +10,8 @@ import UIKit
 
 class TweetTableViewCell: UITableViewCell {
     // MARK: - Properties
-    
+    var currentAvatarURL: URL?
+
     /// Image view that displays the avatar of the tweet's author.
     let avatarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -59,6 +60,12 @@ class TweetTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        avatarImageView.image = nil // Reset image to clear old data
+        currentAvatarURL = nil  // Clear the current URL
+    }
+    
     // MARK: - Setup Methods
     
     /// Sets up the views and constraints within the cell.
@@ -96,17 +103,19 @@ class TweetTableViewCell: UITableViewCell {
         usernameLabel.text = tweet.author
         tweetContentLabel.text = tweet.content
         timestampLabel.text = DateUtility.formatDate(from: tweet.date)
-        
-        // Load the avatar image or use initials if the URL is not available.
+        // Handle image loading
         if let urlString = tweet.avatar, let url = URL(string: urlString) {
-            ImageCacheManager.getImage(for: url) { [weak self] image in
+            currentAvatarURL = url // Store the current URL for comparison
+            ImageCacheManager.getImage(for: url) { [weak self, currentLoadedURL = url] image in
                 DispatchQueue.main.async {
-                    // Set the avatar image or generate an initials image if the download fails.
-                    self?.avatarImageView.image = image ?? InitialsImageUtility.generateInitialsImage(for: tweet.author, size: CGSize(width: 40, height: 40))
+                    // Check if the loaded URL matches the current URL to avoid displaying wrong images
+                    if self?.currentAvatarURL == currentLoadedURL {
+                        self?.avatarImageView.image = image ?? InitialsImageUtility.generateInitialsImage(for: tweet.author, size: CGSize(width: 40, height: 40))
+                    }
                 }
             }
         } else {
-            // Fallback to initials if no URL is provided.
+            // Use initials if no image URL is available
             avatarImageView.image = InitialsImageUtility.generateInitialsImage(for: tweet.author, size: CGSize(width: 40, height: 40))
         }
     }

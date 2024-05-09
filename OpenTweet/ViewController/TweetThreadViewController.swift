@@ -14,6 +14,7 @@ class TweetThreadViewController: UIViewController, UITableViewDataSource, UITabl
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupTableView()
         setupUI()
     }

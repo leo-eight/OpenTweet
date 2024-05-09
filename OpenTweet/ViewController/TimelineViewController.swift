@@ -21,6 +21,7 @@ class TimelineViewController: UIViewController {
         setupTableView()
         bindViewModel()
         viewModel.loadTweets()
+        configureNavigationBar()
 	}
 
     private func setupTableView() {
@@ -68,6 +69,14 @@ class TimelineViewController: UIViewController {
             print("NavigationController is nil")
         }
     }
+    
+    private func configureNavigationBar() {
+        // Set the title of the navigation bar
+        navigationItem.title = "OpenTweet"
+        
+        // Remove the UIVisualEffectBackdropView from navigation bar
+        view.backgroundColor = .systemBackground
+    }
 }
 
 extension TimelineViewController: UITableViewDataSource {
@@ -78,10 +87,7 @@ extension TimelineViewController: UITableViewDataSource {
 
 extension TimelineViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TweetTableViewCell", for: indexPath) as? TweetTableViewCell else {
-            return UITableViewCell()
-        }
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TweetTableViewCell", for: indexPath) as! TweetTableViewCell
         let tweet = viewModel.tweets[indexPath.row]
         cell.configure(with: tweet)
         return cell
